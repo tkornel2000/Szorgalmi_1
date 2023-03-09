@@ -53,14 +53,15 @@ namespace Academy_2023.Controllers
         {
             var course = _courseRepository.Update(id, data);
 
-            return course == null ? NotFound() : NoContent();
+            return course == null ? NotFound() : Ok(data);
         }
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            return _courseRepository.Delete(id) ? NoContent() : NotFound();
+            var course = _courseRepository.Delete(id);
+            return course != null ? Ok(course) : NotFound();
         }
     }
 }

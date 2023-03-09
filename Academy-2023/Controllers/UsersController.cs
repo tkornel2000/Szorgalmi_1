@@ -24,6 +24,13 @@ namespace Academy_2023.Controllers
             return _userRepository.GetAll();
         }
 
+        [HttpGet("adult")]
+        public IEnumerable<User> GetOlderThanEighteen()
+        {
+            return _userRepository.GetOlderThanEighteen();
+        }
+
+
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
         public ActionResult<User> Get(int id)

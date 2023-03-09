@@ -5,59 +5,50 @@ namespace Academy_2023.Repositories
     public class CourseRepository
     {
         public static List<Course> Courses = new List<Course>();
+        private readonly ApplicationDbContext _context = new ApplicationDbContext();
 
         public IEnumerable<Course> GetAll()
         {
-            return Courses;
+            return _context.Courses.ToList();
         }
 
         public Course? GetById(int id)
         {
-            foreach (var course in Courses)
-            {
-                if (course.id == id)
-                {
-                    return course;
-                }
-            }
-
-            return null;
+            return _context.Courses.FirstOrDefault(x => x.id == id);
         }
 
         public void Create(Course data)
         {
-            Courses.Add(data);
+            _context.Courses.Add(data);
+            _context.SaveChanges();
         }
 
         public Course? Update(int id, Course data)
         {
-            foreach (var course in Courses)
+            var course = _context.Courses.FirstOrDefault(x => x.id==id);
+            if (course != null)
             {
-                if (course.id == id)
-                {
-                    course.name = data.name;
-                    course.description = data.description;
+                course.name = data.name;
+                course.description = data.description;
+                _context.SaveChanges();
+                return data;
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-                    return course;
-                }
+        public Course? Delete(int id)
+        {
+            var course = _context.Courses.FirstOrDefault(x => x.id == id);
+            if (course != null)
+            {
+                _context.Remove(course);
+                return course;
             }
 
             return null;
-        }
-
-        public bool Delete(int id)
-        {
-            foreach (var course in Courses)
-            {
-                if (course.id == id)
-                {
-                    Courses.Remove(course);
-
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }
