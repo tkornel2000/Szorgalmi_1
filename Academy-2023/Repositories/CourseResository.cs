@@ -4,7 +4,6 @@ namespace Academy_2023.Repositories
 {
     public class CourseRepository
     {
-        public static List<Course> Courses = new List<Course>();
         private readonly ApplicationDbContext _context = new ApplicationDbContext();
 
         public IEnumerable<Course> GetAll()
@@ -14,7 +13,7 @@ namespace Academy_2023.Repositories
 
         public Course? GetById(int id)
         {
-            return _context.Courses.FirstOrDefault(x => x.id == id);
+            return _context.Courses.FirstOrDefault(x => x.Id == id);
         }
 
         public void Create(Course data)
@@ -25,11 +24,11 @@ namespace Academy_2023.Repositories
 
         public Course? Update(int id, Course data)
         {
-            var course = _context.Courses.FirstOrDefault(x => x.id==id);
+            var course = _context.Courses.FirstOrDefault(x => x.Id==id);
             if (course != null)
             {
-                course.name = data.name;
-                course.description = data.description;
+                course.Name = data.Name;
+                course.Description = data.Description;
                 _context.SaveChanges();
                 return data;
             }
@@ -41,7 +40,7 @@ namespace Academy_2023.Repositories
 
         public Course? Delete(int id)
         {
-            var course = _context.Courses.FirstOrDefault(x => x.id == id);
+            var course = _context.Courses.FirstOrDefault(x => x.Id == id);
             if (course != null)
             {
                 _context.Remove(course);

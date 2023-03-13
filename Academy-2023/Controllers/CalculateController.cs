@@ -11,12 +11,30 @@ namespace Academy_2023.Controllers
     public class CalculateController : ControllerBase
     {
         // POST api/<OsszeadController>
-        [HttpPost]
-        public ActionResult Post([FromBody] Szamparos szp)
+        [HttpGet]
+        public double Calculation([FromQuery] double a, [FromQuery] double b, [FromQuery] string operation)
         {
-            var result = szp.calculate();
-            if (result == null) { return BadRequest(); }
-            else { return Ok(szp.calculate()); }
+            double result;
+            Calculator calc = new Calculator();
+            switch (operation)
+            {
+                case "+":
+                    result = calc.Add(a, b);
+                    break;
+                case "-":
+                    result = calc.Sub(a, b);
+                    break;
+                case "*":
+                    result = calc.Multiply(a, b);
+                    break;
+                case "/":
+                    result = calc.Div(a, b);
+                    break;
+                default:
+                    throw new Exception("operation was not found");
+            }
+            return result;
+            
         }
 
     }

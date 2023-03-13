@@ -1,6 +1,7 @@
 ﻿using Academy_2023.Data;
 using Academy_2023.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Xceed.Wpf.Toolkit;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,10 +25,10 @@ namespace Academy_2023.Controllers
             return _userRepository.GetAll();
         }
 
-        [HttpGet("adult")]
-        public IEnumerable<User> GetOlderThanEighteen()
+        [HttpGet("getOlderThan")]
+        public IEnumerable<User> GetOlderThan([FromQuery] int age)
         {
-            return _userRepository.GetOlderThanEighteen();
+            return _userRepository.GetOlderThan(age);
         }
 
 

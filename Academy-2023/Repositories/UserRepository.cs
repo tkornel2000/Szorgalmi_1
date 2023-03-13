@@ -11,9 +11,9 @@ namespace Academy_2023.Repositories
             return _context.Users.ToList();
         }
 
-        public IEnumerable<User> GetOlderThanEighteen()
+        public IEnumerable<User> GetOlderThan(int age)
         {
-            return _context.Users.Where(x => x.Age>18);
+            return _context.Users.Where(x => x.Age>age);
         }
 
         public User? GetById(int id)
