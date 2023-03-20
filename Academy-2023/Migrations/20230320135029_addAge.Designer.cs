@@ -3,6 +3,7 @@ using System;
 using Academy_2023.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,20 +11,18 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Academy_2023.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230320135029_addAge")]
+    partial class addAge
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.4");
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.14");
 
             modelBuilder.Entity("Academy_2023.Data.Course", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("AuthorId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
@@ -33,8 +32,6 @@ namespace Academy_2023.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
 
                     b.ToTable("Courses");
                 });
@@ -52,27 +49,19 @@ namespace Academy_2023.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(10)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Role")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Academy_2023.Data.Course", b =>
-                {
-                    b.HasOne("Academy_2023.Data.User", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId");
-
-                    b.Navigation("Author");
                 });
 #pragma warning restore 612, 618
         }

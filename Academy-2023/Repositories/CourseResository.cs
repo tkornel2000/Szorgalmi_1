@@ -2,9 +2,14 @@
 
 namespace Academy_2023.Repositories
 {
-    public class CourseRepository
+    public class CourseRepository : ICourseRepository
     {
-        private readonly ApplicationDbContext _context = new ApplicationDbContext();
+        private readonly ApplicationDbContext _context;
+
+        public CourseRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
         public IEnumerable<Course> GetAll()
         {
@@ -22,20 +27,9 @@ namespace Academy_2023.Repositories
             _context.SaveChanges();
         }
 
-        public Course? Update(int id, Course data)
+        public void Update()
         {
-            var course = _context.Courses.FirstOrDefault(x => x.Id==id);
-            if (course != null)
-            {
-                course.Name = data.Name;
-                course.Description = data.Description;
-                _context.SaveChanges();
-                return data;
-            }
-            else
-            {
-                return null;
-            }
+            _context.SaveChanges();
         }
 
         public Course? Delete(int id)

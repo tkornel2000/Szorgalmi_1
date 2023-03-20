@@ -2,9 +2,14 @@
 
 namespace Academy_2023.Repositories
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
-        private readonly ApplicationDbContext _context = new ApplicationDbContext();
+        private readonly ApplicationDbContext _context;
+
+        public UserRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
         public IEnumerable<User> GetAll()
         {
@@ -13,7 +18,7 @@ namespace Academy_2023.Repositories
 
         public IEnumerable<User> GetOlderThan(int age)
         {
-            return _context.Users.Where(x => x.Age>age);
+            return _context.Users.Where(x => x.Age > age);
         }
 
         public User? GetById(int id)
@@ -28,22 +33,9 @@ namespace Academy_2023.Repositories
             _context.SaveChanges();
         }
 
-        public User? Update(int id, User data)
+        public void Update()
         {
-            var user = _context.Users.FirstOrDefault(x => x.Id == id);
-
-            if (user != null)
-            {
-                user.Email = data.Email;
-                user.Password = data.Password;
-                user.FirstName = data.FirstName;
-                user.LastName = data.LastName;
-                user.Age = data.Age;
-
-                _context.SaveChanges();
-            }
-
-            return user;
+            _context.SaveChanges();
         }
 
         public bool Delete(int id)

@@ -10,48 +10,51 @@ namespace Academy_2023.Controllers
     [ApiController]
     public class CourseController : ControllerBase
     {
-        private CourseRepository _courseRepository;
+        private readonly ICourseService _courseService;
 
-        public CourseController()
+        public CourseController(ICourseService courseService)
         {
-            _courseRepository = new CourseRepository();
+            _courseService = courseService;
         }
+
+
+
 
         // GET: api/<UsersController>
         [HttpGet]
-        public IEnumerable<Course> Get()
+        public IEnumerable<CourseDto> Get()
         {
-            return _courseRepository.GetAll();
+            return _courseService.GetAll();
         }
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public ActionResult<Course> Get(int id)
+        public ActionResult<CourseDto> Get(int id)
         {
-            var course = _courseRepository.GetById(id);
+            var course = _courseService.GetById(id);
 
             return course == null ? NotFound() : course;
         }
 
         // POST api/<UsersController>
         [HttpPost]
-        public ActionResult Post([FromBody] Course data)
+        public ActionResult Post([FromBody] CourseDto data)
         {
             if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _courseRepository.Create(data);
+            _courseService.Create(data);
 
             return NoContent();
         }
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Course data)
+        public ActionResult Put(int id, [FromBody] CourseDto data)
         {
-            var course = _courseRepository.Update(id, data);
+            var course = _courseService.Update(id, data);
 
             return course == null ? NotFound() : Ok(data);
         }
@@ -60,7 +63,7 @@ namespace Academy_2023.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var course = _courseRepository.Delete(id);
+            var course = _courseService.Delete(id);
             return course != null ? Ok(course) : NotFound();
         }
     }

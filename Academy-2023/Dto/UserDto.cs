@@ -2,7 +2,7 @@
 
 namespace Academy_2023.Data
 {
-    public class User
+    public class UserDto
     {
         [Required]
         public int? Id { get; set; }
