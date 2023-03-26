@@ -49,6 +49,18 @@ namespace Academy_2023.Controllers
 
             return NoContent();
         }
+        [HttpPost("Author")]
+        public ActionResult PostWithAuthor([FromBody] CourseWithAutorDto data)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _courseService.CreateWithAuthor(data);
+
+            return NoContent();
+        }
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]

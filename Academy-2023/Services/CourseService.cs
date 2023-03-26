@@ -27,6 +27,12 @@ namespace Academy_2023.Repositories
         {
             _courseRepository.Create(MapToEntity(courseDto));
         }
+        
+        public void CreateWithAuthor(CourseWithAutorDto courseDto)
+        {
+            _courseRepository.Create(MapToEntityWithAuthor(courseDto));
+        }
+
 
         public Course? Update(int id, CourseDto data)
         {
@@ -35,7 +41,6 @@ namespace Academy_2023.Repositories
             {
                 course.Name = data.Name;
                 course.Description = data.Description;
-                course.Author = data.Author;
                 _courseRepository.Update();
 
             }
@@ -47,8 +52,9 @@ namespace Academy_2023.Repositories
             return _courseRepository.Delete(id);
 
         }
-        private CourseDto MapToDto(Course course) => new CourseDto { Id = course.Id, Name = course.Name, Description = course.Description, Author = course.Author };
+        private CourseDto MapToDto(Course course) => new CourseDto { Id = course.Id, Name = course.Name, Description = course.Description};
 
-        private Course MapToEntity(CourseDto courseDto) => new Course { Id = courseDto.Id, Name = courseDto.Name, Description = courseDto.Description, Author = courseDto.Author };
+        private Course MapToEntity(CourseDto courseDto) => new Course { Id = courseDto.Id, Name = courseDto.Name, Description = courseDto.Description };
+        private Course MapToEntityWithAuthor(CourseWithAutorDto courseDto) => new Course { Id = courseDto.Id, Name = courseDto.Name, Description = courseDto.Description, Author = courseDto.Author};
     }
 }

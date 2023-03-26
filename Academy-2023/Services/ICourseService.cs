@@ -5,6 +5,7 @@ namespace Academy_2023.Repositories
     public interface ICourseService
     {
         void Create(CourseDto courseDto);
+        void CreateWithAuthor(CourseWithAutorDto courseDto);
         Course? Delete(int id);
         IEnumerable<CourseDto> GetAll();
         CourseDto? GetById(int id);

@@ -38,6 +38,7 @@ namespace Academy_2023.Repositories
             if (course != null)
             {
                 _context.Remove(course);
+                _context.SaveChanges();
                 return course;
             }
 

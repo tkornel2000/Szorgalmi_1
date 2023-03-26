@@ -1,6 +1,8 @@
 ﻿using Academy_2023.Data;
 using Academy_2023.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 using Xceed.Wpf.Toolkit;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -9,6 +11,7 @@ namespace Academy_2023.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -72,5 +75,22 @@ namespace Academy_2023.Controllers
         {
             return _userService.Delete(id) ? NoContent() : NotFound();
         }
+
+        [HttpGet]
+        [Route("me2")]
+        public ActionResult<UserDto> GetMe2()
+        {
+
+            var token = HttpContext.Request.Headers["Authorization"]
+            .FirstOrDefault()?.Split(" ").Last();
+
+            var handler = new JwtSecurityTokenHandler();
+            var tokenS = handler.ReadJwtToken(token);
+            int id = int.Parse(tokenS.Claims.FirstOrDefault(x => x.Type == "sub")?.Value);
+            return _userService.GetById(id);
+        }
+
+
+
     }
 }

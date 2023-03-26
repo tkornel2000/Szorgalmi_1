@@ -10,5 +10,6 @@ namespace Academy_2023.Repositories
         User? GetById(int id);
         IEnumerable<User> GetOlderThan(int age);
         void Update();
+        Task<User?> GetByEmailAsync(string email);
     }
 }

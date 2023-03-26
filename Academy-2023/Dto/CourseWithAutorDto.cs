@@ -1,6 +1,6 @@
 ﻿namespace Academy_2023.Data
 {
-    public class Course
+    public class CourseWithAutorDto
     {
         public int Id { get; set; }
         public string? Name { get; set; }
