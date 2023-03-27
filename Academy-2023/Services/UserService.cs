@@ -1,4 +1,5 @@
 ﻿using Academy_2023.Data;
+using Academy_2023.Services;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -7,10 +8,12 @@ namespace Academy_2023.Repositories
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IAccountService _accountService;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IAccountService accountService)
         {
             _userRepository = userRepository;
+            _accountService = accountService;
         }
 
         public IEnumerable<UserDto> GetAll()
@@ -33,9 +36,8 @@ namespace Academy_2023.Repositories
 
         public void Create(UserDto userDto)
         {
-            userDto.Password = EncryptPassword(userDto.Password);
+            userDto.Password = _accountService.EncryptPassword(userDto.Password);
             _userRepository.Create(MapToEntity(userDto));
-
         }
 
         public User? Update(int id, UserDto data)
@@ -45,7 +47,7 @@ namespace Academy_2023.Repositories
             if (user != null)
             {
                 user.Email = data.Email;
-                user.Password = EncryptPassword(data.Password);
+                user.Password = _accountService.EncryptPassword(data.Password);
                 user.Name = data.Name;
                 user.Age = data.Age;
                 user.Role = data.Role;
@@ -66,15 +68,7 @@ namespace Academy_2023.Repositories
             return _userRepository.GetByEmailAsync(email);
         }
 
-        private string EncryptPassword(string password)
-        {
-            using (SHA256 sha256Hash = SHA256.Create())
-            {
-                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
-                string hash = BitConverter.ToString(bytes).Replace("-", "");
-                return hash;
-            }
-        }
+        
 
 
         private UserDto MapToDto(User user) => new UserDto { Id = user.Id, Email = user.Email, Password = user.Password, Name = user.Name, Age = user.Age, Role = user.Role };

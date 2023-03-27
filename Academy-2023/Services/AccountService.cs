@@ -26,7 +26,7 @@ namespace Academy_2023.Services
             return user;
         }
 
-        private string EncryptPassword(string password)
+        public string EncryptPassword(string password)
         {
             using (SHA256 sha256Hash = SHA256.Create())
             {

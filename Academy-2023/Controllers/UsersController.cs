@@ -77,8 +77,8 @@ namespace Academy_2023.Controllers
         }
 
         [HttpGet]
-        [Route("me2")]
-        public ActionResult<UserDto> GetMe2()
+        [Route("me")]
+        public ActionResult<UserDto> GetMe()
         {
 
             var token = HttpContext.Request.Headers["Authorization"]
